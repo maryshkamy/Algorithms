@@ -29,40 +29,36 @@ import Foundation
 
 /*
 Time Complexity: O(nˆ2)
-Lines 51 and 57
+Lines 43 and 47
 Must iterate over the number of rows to generate and each row.
 
 Space Complexity: O(nˆ2)
-Line 49
-'pascalTriangle' list of lists is where the space complexity comes from.
+Line 41
+'result' list of lists is where the space complexity comes from.
 */
 
 func generate(_ numRows: Int) -> [[Int]] {
-    if numRows <= 0 {
-        return []
-    } else if numRows == 1 { 
-        return [[1]]
-    } else if numRows == 2 { 
-        return [[1], [1, 1]]
-    }
-
-    var pascalTriangle: [[Int]] = [[1], [1, 1]] 
-
-    for i in 3...numRows {
-        let lastIndex = pascalTriangle.count - 1
-        let previousRow: [Int] = pascalTriangle[lastIndex]
-        var currentRow: [Int] = [1, 1]
-        let difference = i - currentRow.count
-
-        for j in 1...difference {
-            let value = previousRow[j - 1] + previousRow[j]
-            currentRow.insert(value, at: j)
+    var result: [[Int]] = []
+    
+    for i in 0..<numRows {
+        var currentRow: [Int] = [1]
+    
+        var j = 1
+        while (j < i) {
+            let previousRow = result[i - 1]
+            let sum = previousRow[j - 1] + previousRow[j]
+            currentRow.append(sum)
+            j += 1
         }
-
-        pascalTriangle.append(currentRow)
+    
+        if i > 0 {
+            currentRow.append(1)
+        }
+    
+        result.append(currentRow)
     }
 
-    return pascalTriangle
+    return result
 }
 
 print("Test Case\n")
